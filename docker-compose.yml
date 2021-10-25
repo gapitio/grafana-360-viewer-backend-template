@@ -8,7 +8,7 @@ services:
     networks:
       - grafana
     volumes:
-      - ./sql/init/:/docker-entrypoint-initdb.d/
+      - ./sql/init/:/docker-entrypoint-initdb.d
       - ./postgres:/var/lib/postgresql/data:rw
     environment:
       POSTGRES_DB: app_db
@@ -19,8 +19,6 @@ services:
     image: postgrest/postgrest:v8.0.0
     networks:
       - grafana
-    ports:
-      - 3202:3202
     environment:
       PGRST_DB_URI: postgres://app_user:postgres_password@postgrest-db:5432/app_db
       PGRST_DB_SCHEMA: api
@@ -44,5 +42,4 @@ services:
 
 networks:
   grafana:
-    external:
-      name: grafana
+    name: grafana
