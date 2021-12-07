@@ -5,8 +5,6 @@ services:
     image: postgres:13
     ports:
       - 3201:5432
-    networks:
-      - grafana
     volumes:
       - ./sql/init/:/docker-entrypoint-initdb.d
       - ./postgres:/var/lib/postgresql/data:rw
@@ -17,8 +15,6 @@ services:
 
   grafana-360-viewer-postgrest:
     image: postgrest/postgrest:v8.0.0
-    networks:
-      - grafana
     environment:
       PGRST_DB_URI: postgres://app_user:postgres_password@grafana-360-viewer-postgres:5432/app_db
       PGRST_DB_SCHEMA: api
@@ -35,12 +31,10 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 3203:8080
-    networks:
-      - grafana
     depends_on:
       - grafana-360-viewer-postgrest
 
 networks:
-  grafana:
+  default:
     external: true
     name: grafana
